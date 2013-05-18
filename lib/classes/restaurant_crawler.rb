@@ -9,4 +9,7 @@ class RestaurantCrawler
     n = Nokogiri::HTML(content)
     n.text
   end
+
+
+  
 end

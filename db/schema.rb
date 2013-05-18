@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130513123357) do
+ActiveRecord::Schema.define(:version => 20130517063203) do
 
   create_table "area_categoryships", :force => true do |t|
     t.integer  "area_id"
@@ -53,9 +53,22 @@ ActiveRecord::Schema.define(:version => 20130513123357) do
     t.datetime "updated_at",    :null => false
   end
 
+  create_table "restaurant_type_ships", :force => true do |t|
+    t.integer  "restaurant_id"
+    t.integer  "type_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "restaurant_type_ships", ["restaurant_id"], :name => "index_restaurant_type_ships_on_restaurant_id"
+  add_index "restaurant_type_ships", ["type_id"], :name => "index_restaurant_type_ships_on_type_id"
+
   create_table "restaurants", :force => true do |t|
     t.string   "name"
     t.string   "eztable_link"
+    t.string   "grade_food"
+    t.string   "grade_ambiance"
+    t.string   "grade_service"
     t.string   "pic_url"
     t.string   "address"
     t.text     "open_time"
@@ -65,13 +78,17 @@ ActiveRecord::Schema.define(:version => 20130513123357) do
     t.text     "traffic"
     t.text     "introduction"
     t.integer  "area_id"
-    t.integer  "category_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   add_index "restaurants", ["area_id"], :name => "index_restaurants_on_area_id"
-  add_index "restaurants", ["category_id"], :name => "index_restaurants_on_category_id"
   add_index "restaurants", ["name"], :name => "index_restaurants_on_name"
+
+  create_table "types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

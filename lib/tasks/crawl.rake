@@ -80,8 +80,15 @@ namespace :crawl do
         res.name = crawler.page_html.css('.rank_list h2 a')[current_i-1].text.strip
         puts res.name
         res.eztable_link = "http://www.eztable.com" + crawler.page_html.css('.rank_list h2 a')[current_i-1][:href]
-        res.pic_url = crawler.page_html.css('.rank_photo img')[0][:src]
+        res.eztable_link = res.eztable_link.gsub("../..","")
+        res.pic_url = crawler.page_html.css('.rank_photo img')[current_i-1][:src]
         res.area_id = area_id
+        text_food  = crawler.page_html.css(".rank_list li span.food")[current_i-1].text.strip
+        res.grade_food = text_food.gsub("菜色 ： ","")
+        text_ambiance = crawler.page_html.css(".rank_list li span.ambiance")[current_i-1].text.strip
+        res.grade_ambiance = text_ambiance.gsub("氣氛 ： ","")
+        text_service = crawler.page_html.css(".rank_list li span.meta-list")[current_i*3-1].text.strip
+        res.grade_service = text_service.gsub("服務 ： ","")
         res.save
         current_i = current_i + 1
       end 
@@ -97,6 +104,28 @@ namespace :crawl do
         r.address = c.page_html.css("address").text.strip
         r.open_time = c.page_html.css("h4[itemprop = 'openingHours'] > .rest_li").text.strip
         r.official_link = c.page_html.css("h4 a[itemprop='url']").text.strip
+
+        types = c.page_html.css(".rest_li a")
+
+        types.each do |t|
+          name = t.text.strip
+          puts name
+          #  add type
+          type = Type.find_by_name(name)
+
+          unless type
+            type = Type.new
+            type.name = name
+            type.save
+          end
+
+          ship = RestaurantTypeShip.new
+          ship.type_id = type.id
+          ship.restaurant_id = r.id
+          ship.save
+
+        end
+
         r.eat_type = c.page_html.css("a[target='_self']").text.strip
         r.price = c.page_html.css("li[itemprop='priceRange']").text.strip
         # get traffic info

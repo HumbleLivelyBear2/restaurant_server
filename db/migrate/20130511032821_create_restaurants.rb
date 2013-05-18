@@ -3,6 +3,9 @@ class CreateRestaurants < ActiveRecord::Migration
     create_table :restaurants do |t|
       t.string  :name
       t.string  :eztable_link
+      t.string  :grade_food
+      t.string  :grade_ambiance
+      t.string  :grade_service
       t.string  :pic_url
       t.string  :address
       t.text    :open_time

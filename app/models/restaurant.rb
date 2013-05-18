@@ -4,4 +4,7 @@ class Restaurant < ActiveRecord::Base
   has_many :note
   has_many :restaurant_category_ships
   has_many :categories, :through => :restaurant_category_ships
+
+  has_many :restaurant_type_ships
+  has_many :types, :through => :restaurant_type_ships
 end

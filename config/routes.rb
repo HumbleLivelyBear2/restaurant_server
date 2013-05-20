@@ -4,6 +4,7 @@ RestaurantServer::Application.routes.draw do
     namespace :v1 do
       # resources :categories, :except => [:index]
       resources :categories, :only => [:index]
+      resources :types, :only => [:index]
       resources :areas, :only => [:index]
       resources :area_categoryship, :only => [:index]
       resources :restaurants, :only => [:index, :show]

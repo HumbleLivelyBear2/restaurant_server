@@ -40,10 +40,12 @@ ActiveRecord::Schema.define(:version => 20130517063203) do
     t.string   "pic_url"
     t.string   "link"
     t.integer  "restaurant_id"
+    t.integer  "area_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "notes", ["area_id"], :name => "index_notes_on_area_id"
   add_index "notes", ["restaurant_id"], :name => "index_notes_on_restaurant_id"
 
   create_table "restaurant_category_ships", :force => true do |t|

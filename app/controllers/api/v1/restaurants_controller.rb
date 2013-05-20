@@ -7,12 +7,12 @@ class Api::V1::RestaurantsController < ApplicationController
 
             if (a_id != nil && c_id != nil) 
                   c = Category.find(c_id)
-                  rs = c.restaurants.where(:area_id => a_id).index_select
+                  rs = c.restaurants.where(:area_id => a_id).index_select.paginate(:page => params[:page], :per_page => 15)
             elsif (a_id != nil && c_id == nil) 
-                  rs =  Restaurant.where(:area_id => a_id).index_select
+                  rs =  Restaurant.where(:area_id => a_id).index_select.paginate(:page => params[:page], :per_page => 15)
             elsif (c_id != nil && a_id == nil)
                   c = Category.find(c_id)
-                  rs = c.restaurants.index_select
+                  rs = c.restaurants.index_select.paginate(:page => params[:page], :per_page => 15)
             end
 
             render :json => rs

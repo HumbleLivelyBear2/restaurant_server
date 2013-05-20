@@ -148,6 +148,7 @@ namespace :crawl do
         note1.pic_url = c.page_html.css('div.gallery  li.first img')[0][:src]
         note1.link = r.official_link
         note1.restaurant_id = r.id
+        note1.area_id = r.area_id
         note1.save
 
         note2 = Note.new
@@ -160,6 +161,7 @@ namespace :crawl do
           note2.link = "null"
         end
         note2.restaurant_id = r.id
+        note2.area_id = r.area_id
         note2.save
 
         note3 = Note.new
@@ -172,6 +174,7 @@ namespace :crawl do
           note3.link = "null"
         end
         note3.restaurant_id = r.id
+        note3.area_id = r.area_id
         note3.save
       end
     end

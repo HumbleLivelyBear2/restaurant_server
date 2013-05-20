@@ -1,15 +1,7 @@
 class Api::V1::NotesController < ApplicationController
 	def index
-		a_id = params[:area_id];
-		a = Area.find(a_id)
-		notes = nil
-		a.restaurants.each do |r|
-			if notes == nil
-				notes = Note.where(:restaurant_id => r.id).index_select
-			else
-				notes = Note.where(:restaurant_id => r.id).index_select + notes
-			end
-		end
+		a_id = params[:area_id]
+		notes = Note.where(:area_id => a_id).index_select.paginate(:page => params[:page], :per_page => 15)
 		render :json => notes
 	end
 

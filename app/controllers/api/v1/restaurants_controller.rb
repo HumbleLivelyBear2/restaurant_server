@@ -20,9 +20,9 @@ class Api::V1::RestaurantsController < ApplicationController
 
       c = Category.find(c_id)
       if (a_id == nil)
-      	rs = c.restaurants
+      	rs = c.restaurants.index_select
       else
-      	rs = c.restaurants.where( :area_id => a_id)
+      	rs = c.restaurants.where(:area_id => a_id).index_select
       end
 
       # c = Category.find(c_id )

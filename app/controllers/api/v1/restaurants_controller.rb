@@ -1,32 +1,27 @@
 class Api::V1::RestaurantsController < ApplicationController
-	def index
-      # c = Category.find(params[:category_id])
-      # rs = c.restaurants
-      c_id = params[:category_id];
-      a_id = params[:area_id];
+	
+      def index
 
-      begin
-      	puts "c_id =" +c_id.to_s
-      rescue Exception => e
-      	puts "c_id =" +0.to_s
-      end
-      
-      
-      begin
-      	puts "a_id =" +a_id.to_s
-      rescue Exception => e
-      	puts "a_id =" +0.to_s
-      end
+            c_id = params[:category_id];
+            a_id = params[:area_id];
 
-      c = Category.find(c_id)
-      if (a_id == nil)
-      	rs = c.restaurants.index_select
-      else
-      	rs = c.restaurants.where(:area_id => a_id).index_select
-      end
+            if (a_id != nil && c_id != nil) 
+                  c = Category.find(c_id)
+                  rs = c.restaurants.where(:area_id => a_id).index_select
+            elsif (a_id != nil && c_id == nil) 
+                  rs =  Restaurant.where(:area_id => a_id).index_select
+            elsif (c_id != nil && a_id == nil)
+                  c = Category.find(c_id)
+                  rs = c.restaurants.index_select
+            end
 
-      # c = Category.find(c_id )
-      # rs = c.restaurants
-      render :json => rs
+            render :json => rs
+
 	end
+
+      def show
+            r_id  = params[:id];
+            r = Restaurant.find(r_id)
+            render :json => r
+      end
 end

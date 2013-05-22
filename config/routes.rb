@@ -16,6 +16,7 @@ RestaurantServer::Application.routes.draw do
       resources :restaurants, :only => [:index, :show]
       resources :areas, :only => [:index]
       resources :notes, :only => [:index, :show]
+      resources :recommands, :only => [:create]
     end
   end
 

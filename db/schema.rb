@@ -80,10 +80,10 @@ ActiveRecord::Schema.define(:version => 20130522031338) do
     t.text     "traffic"
     t.text     "introduction"
     t.integer  "area_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-    t.float    "x_lan"
-    t.float    "y_long"
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.decimal  "x_lan",          :precision => 15, :scale => 10
+    t.decimal  "y_long",         :precision => 15, :scale => 10
   end
 
   add_index "restaurants", ["area_id"], :name => "index_restaurants_on_area_id"

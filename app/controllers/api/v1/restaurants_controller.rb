@@ -18,9 +18,9 @@ class Api::V1::RestaurantsController < ApplicationController
                   end
             elsif t_id !=nil
                   if (a_id != nil)
-                        rs = Restaurant.joins(:restaurant_type_ships).where("area_id = #{a_id} and type_id = #{t_id}").index_select.paginate(:page => params[:page], :per_page => 15)
+                        rs = Restaurant.joins(:restaurant_type_ships).where("area_id = #{a_id} and type_id = #{t_id}").select("restaurants.id,name,grade_food,grade_service,pic_url").paginate(:page => params[:page], :per_page => 15)
                   elsif a_id == nil
-                        rs = Restaurant.joins(:restaurant_type_ships).where("type_id = #{t_id}").index_select.paginate(:page => params[:page], :per_page => 15)
+                        rs = Restaurant.joins(:restaurant_type_ships).where("type_id = #{t_id}").select("restaurants.id,name,grade_food,grade_service,pic_url").paginate(:page => params[:page], :per_page => 15)
                   end
             end                     
 

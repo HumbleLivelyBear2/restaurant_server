@@ -28,9 +28,22 @@ class Api::V1::RestaurantsController < ApplicationController
 
 	end
 
+
+      # def all
+      #       rs = Restaurant.select("id,name,x_lan,y_long")
+      #       render :json => rs
+      # end
+
       def show
+
             r_id  = params[:id];
-            r = Restaurant.find(r_id)
+            if (r_id =="all")
+                  r = Restaurant.select("id,name,x_lan,y_long")
+            else
+                  r = Restaurant.find(r_id)
+            end
             render :json => r
       end
+
+
 end

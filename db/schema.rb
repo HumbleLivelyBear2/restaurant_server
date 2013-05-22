@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130517063203) do
+ActiveRecord::Schema.define(:version => 20130522031338) do
 
   create_table "area_categoryships", :force => true do |t|
     t.integer  "area_id"
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(:version => 20130517063203) do
     t.integer  "area_id"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.float    "x_lan"
+    t.float    "y_long"
   end
 
   add_index "restaurants", ["area_id"], :name => "index_restaurants_on_area_id"

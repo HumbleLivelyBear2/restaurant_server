@@ -1,5 +1,7 @@
+require 'sidekiq/web'
 RestaurantServer::Application.routes.draw do
-  
+  mount Sidekiq::Web, at: '/sidekiq'
+
   namespace :api do
     namespace :v1 do
       # resources :categories, :except => [:index]

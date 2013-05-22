@@ -5,8 +5,15 @@ module Crawler
   require 'iconv'
   require 'net/http'
   
-  attr_accessor :page_url, :page_html
+  attr_accessor :page_url, :page_html, :res_address
   
+  def fetch_address_site res_address
+    @res_address = res_address
+    url = "http://map.longwin.com.tw/addr_geo.php?addr=" + @res_address
+    @page_url = URI::encode(url)
+    @page_html = get_page(@page_url)
+  end
+
   def fetch url
     @page_url = url
     @page_html = get_page(@page_url)   

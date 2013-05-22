@@ -5,6 +5,28 @@ namespace :crawl do
   # 2.crawl_area_restaurant
   # 3.crawl_restaruant
   # 4.crawl_restaurant_category
+  # 5.crawl_address
+
+    task :crawl_address => :environment do
+      Restaurant.all.each do |res|
+        c = RestaurantCrawler.new
+        url = "http://map.longwin.com.tw/addr_geo.php?addr=" + res.address
+        c.fetch URI::encode(url)
+        num = c.page_html.css("script").text.index("GLatLng")
+        text = c.page_html.css("script").text[num..num+35]
+        num1 = text.index("(")
+        num2 = text.index(",")
+        num3 = text.index(")")
+        x = text[num1+1..num2-1]
+        y = text[num2+1..num3-1]
+        res.x_lan = x
+        res.y_long = y
+        puts res.name
+        puts x.to_s + " "+ y.to_s
+        res.save
+        sleep(2) 
+      end
+    end
 
     task :crawl_restaurant_category => :environment do
       Area.all.each do |area|

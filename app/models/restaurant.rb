@@ -8,5 +8,5 @@ class Restaurant < ActiveRecord::Base
   has_many :restaurant_type_ships
   has_many :types, :through => :restaurant_type_ships
 
-  scope :index_select, select("name,grade_food,grade_service,pic_url")
+  scope :index_select, select("id,name,grade_food,grade_service,pic_url")
 end

@@ -14,7 +14,7 @@ class Api::V1::RestaurantsController < ApplicationController
                         rs =  Restaurant.where(:area_id => a_id).index_select.paginate(:page => params[:page], :per_page => 15)
                   elsif (c_id != nil && a_id == nil)
                         c = Category.find(c_id)
-                        rs = c.restaurants.index_select.paginate(:page => params[:page], :per_page => 15)
+                        rs = c.restaurants.select("restaurants.id,name,grade_food,grade_service,pic_url").paginate(:page => params[:page], :per_page => 15)
                   end
             elsif t_id !=nil
                   if (a_id != nil)

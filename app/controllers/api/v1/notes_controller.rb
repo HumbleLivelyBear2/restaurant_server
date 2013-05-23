@@ -35,7 +35,7 @@ class Api::V1::NotesController < ApplicationController
 
 	def show
 		r_id = params[:id]
-		notes = Note.where(:restaurant_id => r_id).index_select
+		notes = Note.joins(:restaurant).where(:restaurant_id => r_id).select("notes.id,notes.restaurant_id,notes.title, notes.intro, notes.pic_url, notes.link, restaurants.x_lan, restaurants.y_long").paginate(:page => params[:page], :per_page => 15
 		render :json => notes
 	end
 end

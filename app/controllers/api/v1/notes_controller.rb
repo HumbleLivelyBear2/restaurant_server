@@ -37,7 +37,7 @@ class Api::V1::NotesController < ApplicationController
 	end
 
     def select_notes
-        notes = Note.joins(:restaurant).select("notes.id,notes.restaurant_id,notes.title, notes.intro, notes.pic_url, notes.link, restaurants.x_lan, restaurants.y_long").all.sample(15)
+        notes = Note.joins(:restaurant).select("notes.id,notes.restaurant_id,notes.title, notes.intro, notes.pic_url, notes.link, restaurants.x_lan, restaurants.y_long").all.sample(30)
         render :json => notes
     end
 

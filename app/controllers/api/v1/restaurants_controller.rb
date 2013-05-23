@@ -45,7 +45,7 @@ class Api::V1::RestaurantsController < ApplicationController
       end
 
       def select_restaurants
-            rs = Restaurant.select("id,name,grade_food,grade_service,pic_url").all.sample(15)
+            rs = Restaurant.select("id,name,grade_food,grade_service,pic_url").all.sample(30)
             render :json => rs
       end
 

@@ -1,6 +1,5 @@
 class Api::V1::RecommandsController < ApplicationController
 	def create
-		begin
         	a_id = params[:area_id];
         	name = params[:name];
         	grade_food = params[:grade_food];
@@ -13,9 +12,6 @@ class Api::V1::RecommandsController < ApplicationController
 			recommand.grade_service = grade_service
 			recommand.save
 			render :json => ["ok"]
-		rescue Exception => e
-			render :json => ["fail"]
-		end
 		
 	end
 end

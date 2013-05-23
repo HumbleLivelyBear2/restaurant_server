@@ -7,7 +7,7 @@ class Api::V1::RecommandsController < ApplicationController
 
 			recommand = Recommand.new
 			recommand.name = name
-			recommand.area_id = area_id
+			recommand.area_id = a_id
 			recommand.grade_food = grade_food
 			recommand.grade_service = grade_service
 			recommand.save

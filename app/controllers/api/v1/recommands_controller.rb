@@ -12,9 +12,9 @@ class Api::V1::RecommandsController < ApplicationController
 			recommand.grade_food = grade_food
 			recommand.grade_service = grade_service
 			recommand.save
-			return "ok"
+			render :json => {"ok"}
 		rescue Exception => e
-			return "error"
+			render :json => {"fail"}
 		end
 		
 	end

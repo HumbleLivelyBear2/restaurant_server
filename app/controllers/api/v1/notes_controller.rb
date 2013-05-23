@@ -26,10 +26,7 @@ class Api::V1::NotesController < ApplicationController
             end
         end  
             	
-		
-
 		render :json => notes
-
 
 	end
 
@@ -38,4 +35,10 @@ class Api::V1::NotesController < ApplicationController
 		notes = Note.joins(:restaurant).where(:restaurant_id => r_id).select("notes.id,notes.restaurant_id,notes.title, notes.intro, notes.pic_url, notes.link, restaurants.x_lan, restaurants.y_long").paginate(:page => params[:page], :per_page => 15)
 		render :json => notes
 	end
+
+    def select_notes
+        notes = Note.joins(:restaurant).select("notes.id,notes.restaurant_id,notes.title, notes.intro, notes.pic_url, notes.link, restaurants.x_lan, restaurants.y_long").all.sample(15)
+        render :json => notes
+    end
+
 end

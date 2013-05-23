@@ -35,7 +35,6 @@ class Api::V1::RestaurantsController < ApplicationController
       # end
 
       def show
-
             r_id  = params[:id];
             if (r_id =="all")
                   r = Restaurant.select("id,name,x_lan,y_long")
@@ -43,6 +42,11 @@ class Api::V1::RestaurantsController < ApplicationController
                   r = Restaurant.find(r_id)
             end
             render :json => r
+      end
+
+      def select_restaurants
+            rs = Restaurant.select("id,name,grade_food,grade_service,pic_url").all.sample(15)
+            render :json => rs
       end
 
 

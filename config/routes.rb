@@ -13,9 +13,17 @@ RestaurantServer::Application.routes.draw do
       end
       resources :areas, :only => [:index]
       resources :area_categoryship, :only => [:index]
-      resources :restaurants, :only => [:index, :show]
+      resources :restaurants, :only => [:index, :show] do
+        collection do
+          get 'select_restaurants'
+        end
+      end
       resources :areas, :only => [:index]
-      resources :notes, :only => [:index, :show]
+      resources :notes, :only => [:index, :show] do
+        collection do
+          get 'select_notes'
+        end
+      end
       resources :recommands, :only => [:create]
     end
   end

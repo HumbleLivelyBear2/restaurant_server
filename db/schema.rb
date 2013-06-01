@@ -11,42 +11,49 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522115430) do
-
-  create_table "area_categoryships", :force => true do |t|
-    t.integer  "area_id"
-    t.integer  "category_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
+ActiveRecord::Schema.define(:version => 20130529140445) do
 
   create_table "areas", :force => true do |t|
     t.string   "name"
+    t.string   "code_name"
+    t.integer  "area_num"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "categories", :force => true do |t|
-    t.string   "floor"
     t.string   "name"
-    t.string   "info"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "photo_url"
+    t.string   "code_number"
+    t.integer  "max_page_num"
+    t.boolean  "is_show"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "notes", :force => true do |t|
     t.string   "title"
-    t.string   "intro"
+    t.string   "author"
     t.string   "pic_url"
-    t.string   "link"
+    t.string   "pub_date"
+    t.string   "ipeen_link"
+    t.string   "blog_link"
     t.integer  "restaurant_id"
-    t.integer  "area_id"
+    t.boolean  "is_show"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
 
-  add_index "notes", ["area_id"], :name => "index_notes_on_area_id"
   add_index "notes", ["restaurant_id"], :name => "index_notes_on_restaurant_id"
+
+  create_table "rank_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "photo_url"
+    t.string   "code_number"
+    t.boolean  "is_show"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "recommands", :force => true do |t|
     t.integer  "area_id"
@@ -57,51 +64,74 @@ ActiveRecord::Schema.define(:version => 20130522115430) do
     t.datetime "updated_at",    :null => false
   end
 
-  create_table "restaurant_category_ships", :force => true do |t|
+  create_table "restaurant_category_rank_ships", :force => true do |t|
     t.integer  "restaurant_id"
-    t.integer  "category_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "rank_category_id"
+    t.integer  "area_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
+
+  add_index "restaurant_category_rank_ships", ["area_id"], :name => "index_restaurant_category_rank_ships_on_area_id"
+  add_index "restaurant_category_rank_ships", ["rank_category_id"], :name => "index_restaurant_category_rank_ships_on_rank_category_id"
+  add_index "restaurant_category_rank_ships", ["restaurant_id"], :name => "index_restaurant_category_rank_ships_on_restaurant_id"
 
   create_table "restaurant_type_ships", :force => true do |t|
     t.integer  "restaurant_id"
     t.integer  "type_id"
+    t.integer  "area_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "restaurant_type_ships", ["area_id"], :name => "index_restaurant_type_ships_on_area_id"
   add_index "restaurant_type_ships", ["restaurant_id"], :name => "index_restaurant_type_ships_on_restaurant_id"
   add_index "restaurant_type_ships", ["type_id"], :name => "index_restaurant_type_ships_on_type_id"
 
   create_table "restaurants", :force => true do |t|
     t.string   "name"
-    t.string   "eztable_link"
-    t.string   "grade_food"
-    t.string   "grade_ambiance"
-    t.string   "grade_service"
     t.string   "pic_url"
-    t.string   "address"
-    t.text     "open_time"
-    t.string   "official_link"
-    t.string   "eat_type"
+    t.string   "ipeen_link"
+    t.string   "grade_food"
+    t.string   "grade_service"
+    t.string   "grade_ambiance"
     t.string   "price"
-    t.text     "traffic"
+    t.string   "open_time"
+    t.string   "rest_date"
+    t.string   "address"
+    t.string   "phone"
+    t.integer  "rate_num"
     t.text     "introduction"
+    t.string   "official_link"
+    t.string   "recommand_dish"
+    t.decimal  "x_lat",              :precision => 15, :scale => 10
+    t.decimal  "y_long",             :precision => 15, :scale => 10
+    t.integer  "category_id"
+    t.integer  "second_category_id"
     t.integer  "area_id"
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
-    t.decimal  "x_lan",          :precision => 15, :scale => 10
-    t.decimal  "y_long",         :precision => 15, :scale => 10
+    t.boolean  "is_show"
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
   end
 
   add_index "restaurants", ["area_id"], :name => "index_restaurants_on_area_id"
   add_index "restaurants", ["name"], :name => "index_restaurants_on_name"
 
+  create_table "second_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "code_number"
+    t.boolean  "is_show"
+    t.integer  "max_page_num"
+    t.integer  "category_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "types", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "code_number"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
 end

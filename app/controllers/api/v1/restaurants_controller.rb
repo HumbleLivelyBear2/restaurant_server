@@ -20,11 +20,15 @@ class Api::V1::RestaurantsController < ApplicationController
             elsif a_id !=nil && c_id != nil && t_id == nil && r_c_id == nil
                 rs = Restaurant.where(:category_id => c_id, :area_id => a_id).select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long").paginate(:page => params[:page], :per_page => 15)
             elsif a_id !=nil && c_id == nil && t_id != nil && r_c_id == nil
-                type =  Type.find(t_id)
-                rs = type.restaurants.where(:area_id => a_id).select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long").paginate(:page => params[:page], :per_page => 15)
+                rs_ids = RestaurantTypeShip.where("area_id= #{a_id} and type_id = #{t_id}").select("restaurant_id")
+                rs = Restaurant.where(id:rs_ids).select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long").paginate(:page => params[:page], :per_page => 15)
+                # type =  Type.find(t_id)
+                # rs = type.restaurants.where(:area_id => a_id).select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long").paginate(:page => params[:page], :per_page => 15)
             elsif a_id !=nil && c_id == nil && t_id == nil && r_c_id != nil
-                rc = RankCategory.find(r_c_id)
-                rs = rc.restaurants.where(:area_id => a_id).select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long").paginate(:page => params[:page], :per_page => 15)
+                rs_ids = RestaurantCategoryRankShip.where("area_id= #{a_id} and rank_category_id = #{r_c_id}").select("restaurant_id")
+                rs = Restaurant.where(id:rs_ids).select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long").paginate(:page => params[:page], :per_page => 15)
+                # rc = RankCategory.find(r_c_id)
+                # rs = rc.restaurants.where(:area_id => a_id).select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long").paginate(:page => params[:page], :per_page => 15)
             end                   
 
             render :json => rs

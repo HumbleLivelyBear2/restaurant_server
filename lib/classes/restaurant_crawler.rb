@@ -87,7 +87,7 @@ class RestaurantCrawler
           note.pic_url = c.page_html.css(".left-column article .cover")[i].css("img")[0][:src]
         end
         note.pub_date = c.page_html.css("article time")[i].text
-        note.ipeen_link = res_link + c.page_html.css("article .text h2")[i].children[0][:href]
+        note.ipeen_link = "http://www.ipeen.com.tw" + c.page_html.css("article .text h2")[i].children[0][:href]
         note.restaurant_id = res.id
         note.save
         i = i + 1

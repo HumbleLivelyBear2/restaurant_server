@@ -87,6 +87,35 @@ namespace :crawl do
         end
     end
 
+    task :make_selected_res_table => :environment do
+        rs = Restaurant.select("id, is_show").all(:order => "rate_num")
+        rs = rs.reverse
+        i = 0
+        while i < 100 do
+            puts i
+            if rs[i].is_show == true
+                sr = SelectedRestaurant.new
+                sr.restaurant_id = rs[i].id
+                sr.save
+            end
+            i = i +1
+        end
+    end
+
+    task :make_selected_note_table => :environment do
+        rs_ids = SelectedRestaurant.select("restaurant_id")
+        notes = Note.where(:restaurant_id => rs_ids)
+        notes = notes.shuffle
+        i = 0
+        while i < 100 do
+            puts i           
+            sn = SelectedNote.new
+            sn.note_id = notes[i].id
+            sn.save
+            i = i +1
+        end
+    end
+
   ### below is for eztable 
   # 1.crawl_area
   # 2.crawl_area_restaurant

@@ -41,7 +41,8 @@ class Api::V1::NotesController < ApplicationController
 	end
 
     def select_notes
-        notes = Note.joins(:restaurant).select("notes.id,notes.restaurant_id,notes.title, notes.author, notes.pic_url,notes.pub_date, notes.ipeen_link, restaurants.x_lat, restaurants.y_long").all.sample(30)
+        n_ids = SelectedNote.select("note_id")
+        notes = Note.where(id:n_ids).joins(:restaurant).select("notes.id,notes.restaurant_id,notes.title, notes.author, notes.pic_url,notes.pub_date, notes.ipeen_link, restaurants.x_lat, restaurants.y_long").paginate(:page => params[:page], :per_page => 15)
         render :json => notes
     end
 

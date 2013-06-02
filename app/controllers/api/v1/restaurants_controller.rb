@@ -52,7 +52,8 @@ class Api::V1::RestaurantsController < ApplicationController
       end
 
       def select_restaurants
-            rs = Restaurant.select("id,name,grade_food,grade_service,pic_url").all.sample(30)
+            rs_ids = SelectedRestaurant.select("restaurant_id")
+            rs = Restaurant.where(id:rs_ids).select("id,name,grade_food,grade_service,pic_url").paginate(:page => params[:page], :per_page => 15)
             render :json => rs
       end
 

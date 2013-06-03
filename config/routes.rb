@@ -5,7 +5,11 @@ RestaurantServer::Application.routes.draw do
   namespace :api do
     namespace :v1 do
       # resources :categories, :except => [:index]
-      resources :categories, :only => [:index]
+      resources :categories, :only => [:index] do
+        collection do
+          get 'rake_categories'
+        end
+      end
       resources :types, :only => [:index] do
         collection do
           get 'type_area_ship'

@@ -21,6 +21,7 @@ RestaurantServer::Application.routes.draw do
       end
       resources :areas, :only => [:index]
       resources :rank_categories, :only => [:index]
+      resources :second_categories, :only => [:index]
       resources :notes, :only => [:index, :show] do
         collection do
           get 'select_notes'

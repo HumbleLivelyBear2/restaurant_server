@@ -14,8 +14,9 @@ class RestaurantCrawler
   def crawl_lat_long res_id
   	res = Restaurant.find(res_id)
   	num = @page_html.css("script").text.index("GLatLng")
-  	x = @page_html.css("script").text[num+8..num+18]
-  	y = @page_html.css("script").text[num+19..num+28]
+    text = @page_html.css("script").text[num..num+30]
+  	x = text[text.index("(")+1..text.index(",")-1]
+  	y = text[text.index(",")+1..text.index(")")-1]
   	res.x_lat = x
   	res.y_long = y
   	res.save 

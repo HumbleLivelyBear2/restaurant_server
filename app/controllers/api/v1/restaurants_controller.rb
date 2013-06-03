@@ -57,5 +57,27 @@ class Api::V1::RestaurantsController < ApplicationController
             render :json => rs
       end
 
+      def around_restaurates
+        # 25.053871,121.460052
+          s_dis = 0.0091
+          x = params[:x].to_f
+          y = params[:y].to_f
+          dis = params[:dis].to_f * s_dis
+          x_minus = x - dis
+          x_plus = x+dis
+          y_minus = y-dis
+          y_plus = y+dis
+          c_id = params[:category_id]
+          sec_c_id = params[:sec_c_id]
+          if c_id!=nil && sec_c_id!=nil
+            rs = Restaurant.where(" #{x_minus} <x_lat and x_lat < #{x_plus} and #{y_minus} < y_long and y_long< #{y_plus} and is_show = true and category_id = #{c_id} and second_category_id = #{sec_c_id}").select("id,name,grade_food,grade_service,pic_url")
+          elsif c_id!=nil && sec_c_id ==nil
+            rs = Restaurant.where(" #{x_minus} <x_lat and x_lat < #{x_plus} and #{y_minus} < y_long and y_long< #{y_plus} and is_show = true and category_id = #{c_id}").select("id,name,grade_food,grade_service,pic_url")
+          else
+            rs = Restaurant.where(" #{x_minus} <x_lat and x_lat < #{x_plus} and #{y_minus} < y_long and y_long< #{y_plus} and is_show = true ").select("id,name,grade_food,grade_service,pic_url")
+          end
+          render :json => rs
+      end
+
 
 end

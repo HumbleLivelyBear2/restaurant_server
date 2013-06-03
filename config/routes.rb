@@ -16,6 +16,7 @@ RestaurantServer::Application.routes.draw do
       resources :restaurants, :only => [:index, :show] do
         collection do
           get 'select_restaurants'
+          get 'around_restaurates'
         end
       end
       resources :areas, :only => [:index]

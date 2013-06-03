@@ -8,6 +8,9 @@ namespace :crawl do
     # 5.crawl_type_ship
     # 6.crawl_rank_category_ship
 
+    # 7.make_selected_res_table
+    # 8.make_selected_note_table
+
     task :crawl_second_category => :environment do
       c = RestaurantCrawler.new
       c.fetch "http://www.ipeen.com.tw/taiwan/channel/F"

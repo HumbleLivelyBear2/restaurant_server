@@ -17,10 +17,12 @@ RestaurantServer::Application.routes.draw do
         collection do
           get 'select_restaurants'
           get 'around_restaurates'
+          get 'second_restaurants'
         end
       end
       resources :areas, :only => [:index]
       resources :rank_categories, :only => [:index]
+      resources :second_categories, :only => [:index]
       resources :notes, :only => [:index, :show] do
         collection do
           get 'select_notes'

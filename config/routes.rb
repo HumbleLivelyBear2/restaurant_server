@@ -26,6 +26,7 @@ RestaurantServer::Application.routes.draw do
       resources :notes, :only => [:index, :show] do
         collection do
           get 'select_notes'
+          get 'second_notes'
         end
       end
       resources :recommands, :only => [:create]

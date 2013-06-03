@@ -40,6 +40,19 @@ class Api::V1::NotesController < ApplicationController
 		render :json => notes
 	end
 
+    def second_notes
+        a_id   = params[:area_id];
+        sec_c_id   = params[:sec_c_id];
+        if a_id ==nil 
+          notes = Note.joins(:restaurant).where("restaurants.second_category_id= #{sec_c_id}").select("notes.id,notes.restaurant_id,notes.title, notes.author, notes.pic_url,notes.pub_date, notes.ipeen_link, restaurants.x_lat, restaurants.y_long").paginate(:page => params[:page], :per_page => 15)
+        else
+          notes = Note.joins(:restaurant).where("restaurants.second_category_id= #{sec_c_id} and restaurants.area_id=#{a_id}").select("notes.id,notes.restaurant_id,notes.title, notes.author, notes.pic_url,notes.pub_date, notes.ipeen_link, restaurants.x_lat, restaurants.y_long").paginate(:page => params[:page], :per_page => 15)
+        end
+          render :json => notes
+    end
+
+
+
     def select_notes
         n_ids = SelectedNote.select("note_id")
         notes = Note.where(id:n_ids).joins(:restaurant).select("notes.id,notes.restaurant_id,notes.title, notes.author, notes.pic_url,notes.pub_date, notes.ipeen_link, restaurants.x_lat, restaurants.y_long").paginate(:page => params[:page], :per_page => 15)

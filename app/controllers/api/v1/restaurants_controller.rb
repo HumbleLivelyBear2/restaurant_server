@@ -33,8 +33,19 @@ class Api::V1::RestaurantsController < ApplicationController
 
             render :json => rs
 
-	end
+      end
 
+
+      def second_restaurants
+        a_id   = params[:area_id];
+        sec_c_id   = params[:sec_c_id];
+        if a_id ==nil 
+          rs =Restaurant.where("second_category_id=#{sec_c_id}").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price").paginate(:page => params[:page], :per_page => 15)
+        else
+          rs =Restaurant.where("area_id = #{a_id} and second_category_id=#{sec_c_id}").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price").paginate(:page => params[:page], :per_page => 15)
+        end
+          render :json => rs
+      end
 
       # def all
       #       rs = Restaurant.select("id,name,x_lat,y_long")

@@ -11,6 +11,7 @@ namespace :crawl do
     # 7.make_selected_res_table
     # 8.make_selected_note_table
 
+    # 9.transfer_food_and_service_int
     task :crawl_second_category => :environment do
       c = RestaurantCrawler.new
       c.fetch "http://www.ipeen.com.tw/taiwan/channel/F"
@@ -116,6 +117,12 @@ namespace :crawl do
             sn.note_id = notes[i].id
             sn.save
             i = i +1
+        end
+    end
+
+    task :transfer_food_and_service_int => :environment do
+        Restaurant.all.each do |res|
+            TransferFoodAndServiceWorker.perform_async(res.id)
         end
     end
 

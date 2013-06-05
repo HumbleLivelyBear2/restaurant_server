@@ -151,6 +151,36 @@ class Api::V1::RestaurantsController < ApplicationController
           render :json => rs
       end
 
+      def rank_restaurants
+        a_id = params[:area_id]
+        r_c_id = params[:rank_category_id]
+        price_low = params[:price_low]
+        price_high = params[:price_high]
+        is_service_order = params[:is_service_order]
+        is_dis_order = params[:is_dis_order]
+        x = params[:x].to_f
+        y = params[:y].to_f
+        if a_id != nil
+          if is_service_order == nil && is_dis_order == nil
+            rs = Restaurant.joins(:restaurant_category_rank_ships).where("restaurants.area_id = #{a_id} and restaurant_category_rank_ships.rank_category_id = #{r_c_id} and #{price_low} <= price and price <= #{price_high} and is_show = true").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price").paginate(:page => params[:page], :per_page => 16)
+          elsif is_service_order == "true" && is_dis_order == nil
+            rs = Restaurant.joins(:restaurant_category_rank_ships).where("restaurants.area_id = #{a_id} and restaurant_category_rank_ships.rank_category_id = #{r_c_id} and #{price_low} <= price and price <= #{price_high} and is_show = true").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price,rate_num").order("rate_num DESC").paginate(:page => params[:page], :per_page => 16)
+          elsif is_service_order == nil && is_dis_order == "true"
+            rs = Restaurant.joins(:restaurant_category_rank_ships).where("restaurants.area_id = #{a_id} and restaurant_category_rank_ships.rank_category_id = #{r_c_id} and #{price_low} <= price and price <= #{price_high} and is_show = true").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price").order("(ABS(#{x}-x_lat) + ABS(#{y}-y_long)) ASC").paginate(:page => params[:page], :per_page => 16)
+          end
+        elsif a_id == nil
+          if is_service_order == nil && is_dis_order == nil 
+            rs = Restaurant.joins(:restaurant_category_rank_ships).where("restaurant_category_rank_ships.rank_category_id = #{r_c_id} and #{price_low} <= price and price <= #{price_high} and is_show = true").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price").paginate(:page => params[:page], :per_page => 16)
+          elsif is_service_order == "true" && is_dis_order == nil
+            rs = Restaurant.joins(:restaurant_category_rank_ships).where("restaurant_category_rank_ships.rank_category_id = #{r_c_id} and #{price_low} <= price and price <= #{price_high} and is_show = true").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price,rate_num").order("rate_num DESC").paginate(:page => params[:page], :per_page => 16)
+          elsif is_service_order == nil && is_dis_order == "true"
+            rs = Restaurant.joins(:restaurant_category_rank_ships).where("restaurant_category_rank_ships.rank_category_id = #{r_c_id} and #{price_low} <= price and price <= #{price_high} and is_show = true").select("restaurants.id,name,grade_food,grade_service,pic_url,x_lat, y_long,price").order("(ABS(#{x}-x_lat) + ABS(#{y}-y_long)) ASC").paginate(:page => params[:page], :per_page => 16)
+          end
+        end
+          
+          render :json => rs
+      end
+
       # def all
       #       rs = Restaurant.select("id,name,x_lat,y_long")
       #       render :json => rs
@@ -173,8 +203,7 @@ class Api::V1::RestaurantsController < ApplicationController
       end
 
       def around_restaurates
-          # 25.053871,121.460052
-          
+          # 25.053871,121.460052      
           x = params[:x].to_f
           y = params[:y].to_f
           c_id = params[:category_id]

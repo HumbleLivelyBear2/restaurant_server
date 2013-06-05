@@ -26,6 +26,7 @@ RestaurantServer::Application.routes.draw do
           get 'category_restaurants'
           get 'type_restaurants'
           get 'rank_restaurants'
+          get 'search'
         end
       end
       resources :areas, :only => [:index]

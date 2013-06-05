@@ -242,5 +242,10 @@ class Api::V1::RestaurantsController < ApplicationController
           render :json => rs
       end
 
+      def search
+        rs = Restaurant.search(params)
+        render :json => rs
+      end
+
 
 end

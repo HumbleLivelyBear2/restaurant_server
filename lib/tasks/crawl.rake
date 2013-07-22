@@ -111,9 +111,13 @@ namespace :crawl do
         SelectedNote.delete_all
         rs_ids = SelectedRestaurant.select("restaurant_id")
         notes = Note.where(:restaurant_id => rs_ids)
-        notes = notes.shuffle
+        
+        (1..10).each do |i|
+            notes = notes.shuffle
+        end
+
         i = 0
-        while i < 150 do
+        while i < 200 do
             puts i           
             sn = SelectedNote.new
             sn.note_id = notes[i].id

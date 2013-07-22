@@ -92,10 +92,11 @@ namespace :crawl do
     end
 
     task :make_selected_res_table => :environment do
-        rs = Restaurant.select("id, is_show").all(:order => "rate_num")
-        rs = rs.reverse
+        SelectedRestaurant.delete_all
+        rs = Restaurant.select("id, is_show").order("rate_num DESC").limit(1500)
+        rs = rs.shuffle
         i = 0
-        while i < 100 do
+        while i < 200 do
             puts i
             if rs[i].is_show == true
                 sr = SelectedRestaurant.new
@@ -107,11 +108,12 @@ namespace :crawl do
     end
 
     task :make_selected_note_table => :environment do
+        SelectedNote.delete_all
         rs_ids = SelectedRestaurant.select("restaurant_id")
         notes = Note.where(:restaurant_id => rs_ids)
         notes = notes.shuffle
         i = 0
-        while i < 100 do
+        while i < 150 do
             puts i           
             sn = SelectedNote.new
             sn.note_id = notes[i].id

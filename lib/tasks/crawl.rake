@@ -172,6 +172,27 @@ namespace :crawl do
         end
     end
 
+  task :send_notification => :environment do
+    gcm = GCM.new("AIzaSyBSeIzNxqXm2Rr4UnThWTBDXiDchjINbrc")
+    registration_ids= ["APA91bFPlVKnJT8_QUtMK4PRJu_SuWIvq6gYlejtHdE4ArlTOy2KqrGuj5WBD8iyoqyNX-VWvwXqFNJfFhLzkFps6KmbSSGA47aIyb83NcY4IRGKtAITh7rZjkIX7XS-6-N-537AblyS8xwkZzq1auhdBYoTTJbyoKYTPcq7alOErzahj9NtidQ"]
+    options = {data: {
+                  activity: 1, 
+                  title: "好久沒看小說王囉", 
+                  big_text: "繼續看個小說吧！", 
+                  content: "我是 content", 
+                  resturant_name: "fm 排行榜", 
+                  resturant_id: "2",
+                  note_title: "test",
+                  note_link: "http://www.ipeen.com.tw/comment/10000",
+                  note_pic: "http://iphoto.ipeen.com.tw/photo/comment/def/200x200/0/0/0/100000/100000_1345063915_7964.jpg",
+                  note_id: 5,
+                  restaurant_id: 4,
+                  note_x: 25.1228120000,
+                  note_y: 121.9163060000
+                  }, collapse_key: "updated_score"}
+    response = gcm.send_notification(registration_ids, options)
+  end
+
   ### below is for eztable 
   # 1.crawl_area
   # 2.crawl_area_restaurant

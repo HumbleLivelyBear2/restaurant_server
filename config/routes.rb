@@ -39,6 +39,15 @@ RestaurantServer::Application.routes.draw do
         end
       end
       resources :recommands, :only => [:create]
+
+      resources :users, :only => [:create] do
+        collection do
+          put 'update_looked_restaurants'
+          put 'update_looked_notes'
+          put 'update_collect_restaurants'
+          put 'update_collect_notes'
+        end
+      end
     end
   end
 

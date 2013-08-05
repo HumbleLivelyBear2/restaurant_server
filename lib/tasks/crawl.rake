@@ -172,16 +172,47 @@ namespace :crawl do
         end
     end
 
-  task :send_notification => :environment do
+  task :send_notification_restaurant_note => :environment do
     gcm = GCM.new("AIzaSyBSeIzNxqXm2Rr4UnThWTBDXiDchjINbrc")
-    registration_ids= ["APA91bFPlVKnJT8_QUtMK4PRJu_SuWIvq6gYlejtHdE4ArlTOy2KqrGuj5WBD8iyoqyNX-VWvwXqFNJfFhLzkFps6KmbSSGA47aIyb83NcY4IRGKtAITh7rZjkIX7XS-6-N-537AblyS8xwkZzq1auhdBYoTTJbyoKYTPcq7alOErzahj9NtidQ"]
+    users = User.select("registration_id").all
+    registration_ids = []
+    users.each{|user| registration_ids << user.registration_id}
+    note_id = SelectedNote.select("note_id").shuffle[0].note_id
+    note = Note.find(note_id)
+    registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
     options = {data: {
                   activity: 1, 
-                  title: "好久沒看小說王囉", 
-                  big_text: "繼續看個小說吧！", 
-                  content: "我是 content", 
-                  resturant_name: "fm 排行榜", 
-                  resturant_id: "2",
+                  title: "每日嚴選食記", 
+                  big_text: note.title, 
+                  content: note.title, 
+                  resturant_name: note.restaurant.name, 
+                  resturant_id: note.restaurant.id,
+                  note_title: note.title,
+                  note_link: note.ipeen_link,
+                  note_pic: note.pic_url,
+                  note_id: note.id,
+                  restaurant_id: note.restaurant.id,
+                  note_x: note.restaurant.x_lat,
+                  note_y: note.restaurant.y_long
+                  }, collapse_key: "updated_score"}
+    response = gcm.send_notification(registration_ids, options)
+  end
+
+  task :send_notification_restaurant => :environment do
+    gcm = GCM.new("AIzaSyBSeIzNxqXm2Rr4UnThWTBDXiDchjINbrc")
+    users = User.select("registration_id").all
+    registration_ids = []
+    users.each{|user| registration_ids << user.registration_id}
+    restaurant_id = SelectedRestaurant.select("restaurant_id").shuffle[0].restaurant_id
+    restaurant = Restaurant.find(restaurant_id)
+    # registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
+    options = {data: {
+                  activity: 0, 
+                  title: "每日餐廳介紹", 
+                  big_text: restaurant.name, 
+                  content: restaurant.introduction, 
+                  resturant_name: restaurant.name, 
+                  resturant_id: restaurant.id,
                   note_title: "test",
                   note_link: "http://www.ipeen.com.tw/comment/10000",
                   note_pic: "http://iphoto.ipeen.com.tw/photo/comment/def/200x200/0/0/0/100000/100000_1345063915_7964.jpg",

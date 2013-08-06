@@ -18,6 +18,6 @@ every :day, :at => '05:50pm' do
 end
 
 
-every :day, :at => '11:30pm' do
+every :day, :at => '11:30am' do
   rake 'crawl:send_notification_restaurant',:output => {:error => 'log/error.log', :standard => 'log/cron.log'}
 end

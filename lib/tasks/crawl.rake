@@ -182,9 +182,9 @@ namespace :crawl do
     registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
     options = {data: {
                   activity: 1, 
-                  title: "每日嚴選食記", 
+                  title: "每日嚴選食記: " + note.restaurant.name, 
                   big_text: note.title, 
-                  content: note.title, 
+                  content: note.restaurant.name + ":" + note.title, 
                   resturant_name: note.restaurant.name, 
                   resturant_id: note.restaurant.id,
                   note_title: note.title,
@@ -208,9 +208,9 @@ namespace :crawl do
     registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
     options = {data: {
                   activity: 0, 
-                  title: "每日餐廳介紹", 
-                  big_text: restaurant.name, 
-                  content: restaurant.introduction, 
+                  title: "每日餐廳介紹: " + restaurant.name, 
+                  big_text: restaurant.introduction, 
+                  content: restaurant.name + ":" + restaurant.introduction, 
                   resturant_name: restaurant.name, 
                   resturant_id: restaurant.id,
                   note_title: "test",

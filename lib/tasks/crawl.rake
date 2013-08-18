@@ -179,7 +179,7 @@ namespace :crawl do
     users.each{|user| registration_ids << user.registration_id}
     note_id = SelectedNote.select("note_id").shuffle[0].note_id
     note = Note.find(note_id)
-    registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
+    # registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
     options = {data: {
                   activity: 1, 
                   title: "每日嚴選食記: " + note.restaurant.name, 
@@ -205,7 +205,7 @@ namespace :crawl do
     users.each{|user| registration_ids << user.registration_id}
     restaurant_id = SelectedRestaurant.select("restaurant_id").shuffle[0].restaurant_id
     restaurant = Restaurant.find(restaurant_id)
-    registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
+    # registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
     options = {data: {
                   activity: 0, 
                   title: "每日餐廳介紹: " + restaurant.name, 

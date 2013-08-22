@@ -1,13 +1,14 @@
 class Api::V1::UsersController < ApplicationController
   def create
-    regid = params[:regid]
-    user = User.find_by_registration_id(regid)
+    render :status=>404, :json => {"message" => "fail"} and return unless params[:device_id]
+    user = find_user
     if user
-      user.registration_id = regid;
+      user.registration_id = params[:regid]
       user.save
     else
       user = User.new
-      user.registration_id = regid
+      user.device_id = params[:device_id]
+      user.registration_id = params[:regid]
       user.looked_restaurants = []
       user.looked_notes = []
       user.save
@@ -16,9 +17,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_looked_restaurants
-    regid = params[:regid]
     restaurant = params[:restaurant]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.looked_restaurants << restaurant unless user.looked_restaurants.include? restaurant
       user.save
@@ -29,9 +29,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_looked_notes
-    regid = params[:regid]
     note = params[:note]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.looked_notes << note unless user.looked_notes.include? note
       user.save
@@ -42,9 +41,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_collect_restaurants
-    regid = params[:regid]
     restaurants = params[:restaurants]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.collect_restaurants = restaurants
       user.save
@@ -55,9 +53,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_collect_notes
-    regid = params[:regid]
     notes = params[:notes]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.collect_notes = notes
       user.save
@@ -66,5 +63,12 @@ class Api::V1::UsersController < ApplicationController
       render :status=>404, :json => {"message" => "fail"}
     end
   end
+
+  private
+    def find_user
+      device_id = params[:device_id]
+      return nil unless device_id
+      user = User.find_by_device_id(device_id)
+    end
 
 end

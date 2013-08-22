@@ -174,28 +174,29 @@ namespace :crawl do
 
   task :send_notification_restaurant_note => :environment do
     gcm = GCM.new("AIzaSyBSeIzNxqXm2Rr4UnThWTBDXiDchjINbrc")
-    users = User.select("registration_id").all
-    registration_ids = []
-    users.each{|user| registration_ids << user.registration_id}
-    note_id = SelectedNote.select("note_id").shuffle[0].note_id
-    note = Note.find(note_id)
-    # registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
-    options = {data: {
-                  activity: 1, 
-                  title: "每日嚴選食記: " + note.restaurant.name, 
-                  big_text: note.title, 
-                  content: note.restaurant.name + ":" + note.title, 
-                  resturant_name: note.restaurant.name, 
-                  resturant_id: note.restaurant.id,
-                  note_title: note.title,
-                  note_link: note.ipeen_link,
-                  note_pic: note.pic_url,
-                  note_id: note.id,
-                  restaurant_id: note.restaurant.id,
-                  note_x: note.restaurant.x_lat,
-                  note_y: note.restaurant.y_long
-                  }, collapse_key: "updated_score"}
-    response = gcm.send_notification(registration_ids, options)
+    User.select("id,registration_id").find_in_batches do |users|
+      registration_ids = []
+      users.each{|user| registration_ids << user.registration_id}
+      note_id = SelectedNote.select("note_id").shuffle[0].note_id
+      note = Note.find(note_id)
+      # registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
+      options = {data: {
+                    activity: 1, 
+                    title: "每日嚴選食記: " + note.restaurant.name, 
+                    big_text: note.title, 
+                    content: note.restaurant.name + ":" + note.title, 
+                    resturant_name: note.restaurant.name, 
+                    resturant_id: note.restaurant.id,
+                    note_title: note.title,
+                    note_link: note.ipeen_link,
+                    note_pic: note.pic_url,
+                    note_id: note.id,
+                    restaurant_id: note.restaurant.id,
+                    note_x: note.restaurant.x_lat,
+                    note_y: note.restaurant.y_long
+                    }, collapse_key: "updated_score"}
+        response = gcm.send_notification(registration_ids, options)
+    end
   end
 
   task :send_notification_restaurant => :environment do
@@ -205,7 +206,7 @@ namespace :crawl do
     users.each{|user| registration_ids << user.registration_id}
     restaurant_id = SelectedRestaurant.select("restaurant_id").shuffle[0].restaurant_id
     restaurant = Restaurant.find(restaurant_id)
-    # registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
+    registration_ids= ["APA91bG92Mmy4WPOyNdTcNdeJMtpM0o4UnjxylGNQmxUBo6t6gehTQCQkCqWsLY7jXUF9kjUUaJP2GgcaIL3HIeXmcXgQcqZxr2hFc481bgH0nPgc7I6wvJR6zo6kAmpQN-Rz3URI3RydwhjhxwhWA6Nky1q5DDMK33gl1w6kADWLhx_3z75jYM"]
     options = {data: {
                   activity: 0, 
                   title: "每日餐廳介紹: " + restaurant.name, 

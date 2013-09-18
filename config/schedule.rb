@@ -12,12 +12,3 @@ end
 every :day, :at => '04:50am' do
   rake 'environment tire:import CLASS=Restaurant FORCE=true',:output => {:error => 'log/error.log', :standard => 'log/cron.log'}
 end
-
-every :day, :at => '05:50pm' do
-  rake 'crawl:send_notification_restaurant_note',:output => {:error => 'log/error.log', :standard => 'log/cron.log'}
-end
-
-
-every :day, :at => '11:30am' do
-  rake 'crawl:send_notification_restaurant',:output => {:error => 'log/error.log', :standard => 'log/cron.log'}
-end
